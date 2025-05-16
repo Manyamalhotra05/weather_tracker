@@ -1,18 +1,20 @@
 name: Weather Tracker Update
 
 on:
-  workflow_dispatch:  # allows you to run manually
+  schedule:
+    - cron: '0 * * * *'  # runs every hour
+  workflow_dispatch:
 
 jobs:
-  run-script:
+  update-weather:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -23,5 +25,3 @@ jobs:
 
       - name: Run weather script
         run: python weather2.py
-        env:
-          API_KEY: ${{ secrets.WEATHER_API_KEY }}
